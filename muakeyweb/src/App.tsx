@@ -1,34 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useLayoutEffect, useState } from 'react';
+import { Routes, Route, Router } from 'react-router-dom';
+import loadable from '@loadable/component';
+import 'antd/dist/antd.css';
+import './assets/scss/_style.scss';
+import { history } from './routes/history';
 
-function App() {
-  const [count, setCount] = useState(0)
+const LoginPage = loadable(() => import('./pages/auth/views/Login'));
+const DefaultLayout = loadable(() => import('./layouts/DefaultLayout'));
 
+const CustomRouter = ({ history, ...props }: any) => {
+  const [state, setState] = useState({
+    action: history.action,
+    location: history.location,
+  });
+
+  useLayoutEffect(() => history.listen(setState), [history]);
+
+  return <Router {...props} location={state.location} navigationType={state.action} navigator={history} />;
+};
+
+export const App: React.FC = () => {
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
-
-export default App
+    <CustomRouter history={history}>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/*" element={<DefaultLayout />} />
+      </Routes>
+    </CustomRouter>
+  );
+};

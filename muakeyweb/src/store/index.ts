@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query/react';
 
-import auth from '../pages/auth/store/AuthSlice';
+// import auth from '../pages/auth/store/AuthSlice';
 
 import { apiStore } from './storeApi';
 
@@ -10,7 +10,7 @@ import common from './common/commonSlice';
 const rootReducer = combineReducers({
   [apiStore.reducerPath]: apiStore.reducer,
   common,
-  auth
+  // auth
 });
 
 const middlewareHandler = (getDefaultMiddleware: any) => {

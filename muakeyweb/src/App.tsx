@@ -5,8 +5,9 @@ import 'antd/dist/antd.css';
 import './assets/scss/_style.scss';
 import { history } from './routes/history';
 
-const LoginPage = loadable(() => import('./pages/auth/views/Login'));
+// const LoginPage = loadable(() => import('./pages/auth/views/Login'));
 const DefaultLayout = loadable(() => import('./layouts/DefaultLayout'));
+const NotFound = loadable(() => import('./layouts/Page404'));
 
 const CustomRouter = ({ history, ...props }: any) => {
   const [state, setState] = useState({
@@ -23,8 +24,9 @@ export const App: React.FC = () => {
   return (
     <CustomRouter history={history}>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        {/* <Route path="/login" element={<LoginPage />} /> */}
         <Route path="/*" element={<DefaultLayout />} />
+        {/* <Route path="*" element={NotFound} /> */}
       </Routes>
     </CustomRouter>
   );
